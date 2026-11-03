@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CastBuddy ненадолго недоступен</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="120x120" href="/favicon-120.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/legal/_style.css">
+<style>
+/* Своя страница, а не документ: космонавт, звёздное поле и ряд ссылок.
+   Типографику и цвета берём из legal/_style.css — тот же файл открывается,
+   даже если приложение не загрузилось, и не тянет за собой сборку app.html. */
+/* Страница не прокручивается вообще (правка владельца 08.08): содержимое
+   помещается в экран и центрируется по вертикали, а не висит от верхнего края.
+   overflow:hidden убирает саму прокрутку, overscroll-behavior:none — резиновый
+   отскок от края на тачпаде: без него страница ездила вправо-влево и вверх-вниз,
+   хотя прокручивать было нечего. 100dvh, а не 100vh, — на мобильных панель
+   браузера меняет высоту, и на 100vh низ кнопок уходил бы под неё. */
+html,body{height:100%;overflow:hidden;overscroll-behavior:none}
+body{background:var(--bg);min-height:100dvh;
+  display:flex;align-items:center;justify-content:center}
+.nf{position:relative;z-index:1;max-width:680px;margin:0 auto;
+  padding:24px;text-align:center}
+/* Картинка вертикальная (990×1087), поэтому ширину держим скромнее прежней:
+   по высоте она и так забирает больше места, чем прежний квадратный кадр. */
+.nf-mascot{width:250px;max-width:56vw;height:auto;margin:0 auto 12px;display:block}
+.nf h1{font-size:34px;margin:0 0 6px}
+/* Подзаголовок — вторая строка заголовка по смыслу: продолжает фразу «И целой
+   вселенной мало..», поэтому стоит вплотную и набран тише, но крупнее текста. */
+.nf-sub{font-size:20px;line-height:1.35;color:var(--ink-2);margin:0 0 36px}
+.nf p{margin:0 auto 28px;max-width:44ch}
+/* Две кнопки столбиком по центру (правка владельца 08.08). Ширина задана числом,
+   а не содержимым: у «На главную» и «Помощь» разной длины подписи, а столбик
+   с кнопками разной ширины читается как список ссылок, а не как выбор из двух.
+   218px: 140px — прежняя ширина самой широкой, плюс треть, плюс ещё пятая
+   часть сверху (вторая правка владельца 08.08). */
+.nf-links{display:flex;flex-direction:column;align-items:center;gap:12px}
+/* Ключевая — фиолетовая пилюля, вторая тихая с тонкой обводкой. */
+.nf-links a{width:218px;box-sizing:border-box;text-align:center;
+  padding:12px 22px;border-radius:999px;font-size:16px;font-weight:700;
+  text-decoration:none;border:1px solid var(--line);color:var(--ink);
+  transition:background-color .2s ease,color .2s ease,border-color .2s ease}
+.nf-links a:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.nf-links a.is-key{background:var(--accent);border-color:var(--accent);color:#fff}
+.nf-links a.is-key:hover{filter:brightness(1.1)}
+
+/* Звёздное поле. Звезда — тот же значок ✦, которым в сервисе обозначаются сцены:
+   на странице про потерянную ссылку он читается и как звезда, и как «наши сцены
+   где-то там». Тёмные, а не светлые: фон песочный, белые на нём исчезли бы.
+   Прозрачности нет (правка владельца 08.08): все звёзды в полный цвет текста,
+   мерцание осталось только размером. Раньше оно шло и по прозрачности — звёзды
+   выцветали до .16 и половину времени были едва различимы.
+   Размах мерцания широкий (вторая правка 08.08): 0.7 → 1.9. Узкий диапазон на
+   непрозрачных звёздах в глаза не бросался — движение было, но его не замечали.
+   Разброс самих кеглей тоже широкий, от 7 до 22 px: поле из звёзд одного
+   размера читается как узор, а не как небо.
+   Каждая со своей задержкой, иначе поле пульсировало бы разом, как гирлянда. */
+/* Под текстом и кнопками звёзд нет (правка владельца 08.08). Прячет их скрипт
+   внизу страницы: он знает, где стоит блок с содержимым, а CSS — нет, ширина
+   блока ограничена max-width и в процентах не выражается.
+   По умолчанию звезда скрыта и показывается скриптом: если он почему-то не
+   отработает, лучше чистый фон, чем звёзды поверх текста. */
+.nf-stars{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.nf-stars i{position:absolute;display:block;font-style:normal;line-height:1;
+  font-size:13px;color:var(--ink);visibility:hidden;
+  animation:nfTwinkle 3.4s ease-in-out infinite}
+.nf-stars i.on{visibility:visible}
+@keyframes nfTwinkle{
+  0%,100%{transform:scale(.7)}
+  50%{transform:scale(1.9)}
+}
+@media (prefers-reduced-motion:reduce){ .nf-stars i{animation:none} }
+/* На узком экране подзаголовок тоже поджимаем: рядом с h1 в 27px он в прежних
+   20px переставал читаться как второй уровень. */
+@media (max-width:600px){
+  .nf{padding:18px} .nf h1{font-size:27px}
+  .nf-sub{font-size:17px;margin-bottom:28px}
+}
+/* Прокрутки нет, значит содержимое обязано влезать в любую высоту — иначе
+   overflow:hidden просто срежет кнопки. Поджимаем по высоте окна, начиная с
+   картинки: она забирает больше всех. */
+@media (max-height:720px){
+  .nf-mascot{width:190px;margin-bottom:8px}
+  .nf h1{font-size:28px} .nf-sub{font-size:17px;margin-bottom:24px}
+  .nf p{margin-bottom:20px}
+}
+@media (max-height:580px){
+  .nf-mascot{width:120px}
+  .nf h1{font-size:23px} .nf-sub{font-size:15px;margin-bottom:16px}
+  .nf p{font-size:15px;margin-bottom:16px}
+  .nf-links{gap:8px}
+  .nf-links a{padding:10px 22px}
+}
+</style>
+</head>
+<body>
+  <!-- Звёзды расставлены руками, а не циклом: разброс по экрану важнее
+       случайности — по случайным координатам они сбиваются в кучу.
+       18 штук (правка владельца 08.08). Разложены по краям: середину занимает
+       текст, и звезда оттуда всё равно будет спрятана скриптом. -->
+  <div class="nf-stars" aria-hidden="true">
+    <i style="left:4%;top:12%;font-size:18px;animation-delay:0s">✦</i>
+    <i style="left:9%;top:34%;font-size:7px;animation-delay:.7s">✦</i>
+    <i style="left:3%;top:57%;font-size:13px;animation-delay:1.9s">✦</i>
+    <i style="left:13%;top:72%;font-size:8px;animation-delay:1.2s">✦</i>
+    <i style="left:6%;top:86%;font-size:20px;animation-delay:2.4s">✦</i>
+    <i style="left:16%;top:22%;font-size:9px;animation-delay:.3s">✦</i>
+    <i style="left:95%;top:16%;font-size:11px;animation-delay:1.6s">✦</i>
+    <i style="left:88%;top:33%;font-size:22px;animation-delay:2.8s">✦</i>
+    <i style="left:97%;top:48%;font-size:7px;animation-delay:.9s">✦</i>
+    <i style="left:90%;top:66%;font-size:14px;animation-delay:2.1s">✦</i>
+    <i style="left:94%;top:82%;font-size:8px;animation-delay:3s">✦</i>
+    <i style="left:84%;top:26%;font-size:9px;animation-delay:1.4s">✦</i>
+    <i style="left:30%;top:6%;font-size:8px;animation-delay:2.6s">✦</i>
+    <i style="left:52%;top:4%;font-size:16px;animation-delay:.5s">✦</i>
+    <i style="left:70%;top:9%;font-size:7px;animation-delay:1.1s">✦</i>
+    <i style="left:34%;top:93%;font-size:13px;animation-delay:2.2s">✦</i>
+    <i style="left:55%;top:95%;font-size:7px;animation-delay:.2s">✦</i>
+    <i style="left:68%;top:90%;font-size:18px;animation-delay:1.7s">✦</i>
+  </div>
+
+  <div class="nf">
+    <img class="nf-mascot" src="/assets/mascot-404.svg" alt="" aria-hidden="true">
+    <h1>CastBuddy ненадолго недоступен</h1>
+    <p class="nf-sub">У нашего хостинг-провайдера крупный сбой</p>
+    <p>Мы уже возвращаем сервис. Загляни чуть позже — новости в нашем Telegram-канале.</p>
+    <div class="nf-links">
+      <a class="is-key" href="https://t.me/castbuddy" target="_blank" rel="noopener">Telegram-канал</a>
+    </div>
+  </div>
+
+<script>
+/* Показываем только те звёзды, что не налезают на текст и кнопки.
+   Прямоугольник содержимого CSS не знает: ширина блока ограничена max-width, в
+   процентах её не выразить, а на узком экране блок занимает почти всё поле.
+   Поэтому решение принимает скрипт — и пересчитывает его при смене размера окна
+   и при повороте экрана. Запас в 14 px, чтобы звезда не липла к букве. */
+(function(){
+  var box = document.querySelector('.nf'),
+      stars = document.querySelectorAll('.nf-stars i'),
+      GAP = 14, timer;
+
+  function place(){
+    var b = box.getBoundingClientRect();
+    for (var i = 0; i < stars.length; i++){
+      var s = stars[i];
+      // Мерцание раздувает звезду до 1.9 — меряем по самому большому её размеру,
+      // иначе мелкая звезда у края текста в пике касалась бы буквы.
+      s.classList.add('on');
+      var r = s.getBoundingClientRect(),
+          w = r.width * 1.9 / 2, h = r.height * 1.9 / 2,
+          cx = r.left + r.width / 2, cy = r.top + r.height / 2,
+          hit = cx + w > b.left - GAP && cx - w < b.right + GAP
+             && cy + h > b.top - GAP && cy - h < b.bottom + GAP;
+      if (hit) s.classList.remove('on');
+    }
+  }
+
+  place();
+  addEventListener('resize', function(){
+    clearTimeout(timer); timer = setTimeout(place, 120);
+  });
+})();
+</script>
+</body>
+</html>
