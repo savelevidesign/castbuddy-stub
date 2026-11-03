@@ -51,9 +51,8 @@ body{background:var(--bg);color:var(--ink);min-height:100dvh;
 .pl-tilt{transform-origin:60px 60px;animation:plTilt 8s ease-in-out infinite}
 .pl-ring{transform-origin:60px 60px;animation:plRing 11s ease-in-out infinite}
 /* Кольцо — плоская лента (владелец 03.11): по бокам шире, спереди и сзади
-   тоньше, как у кольца под углом; задняя половина чуть тусклее — глубина. */
-.pl-ring path{fill:#fff}
-.pl-back path{fill-opacity:.7}
+   тоньше, как у кольца под углом; к дальнему краю плавно гаснет — глубина без резкой границы. */
+.pl-ring path{fill:url(#plRingG)}
 @keyframes plTilt{0%,100%{transform:rotate(-31deg)}50%{transform:rotate(-19deg)}}
 @keyframes plRing{0%,100%{transform:scale(1,.82)}50%{transform:scale(1,1.15)}}
 .nf-sway{position:absolute;inset:0;animation:nfSway 9s ease-in-out infinite;transform-origin:50% 55%}
@@ -193,6 +192,7 @@ body{background:var(--bg);color:var(--ink);min-height:100dvh;
       <span class="nf-planet"><svg viewBox="0 0 120 120">
         <defs>
           <radialGradient id="plBody" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="#fff"/><stop offset=".5" stop-color="#EEEEEE"/><stop offset="1" stop-color="#B4B4B4"/></radialGradient>
+          <linearGradient id="plRingG" gradientUnits="userSpaceOnUse" x1="0" y1="44" x2="0" y2="76"><stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset=".55" stop-color="#fff" stop-opacity=".8"/><stop offset="1" stop-color="#fff"/></linearGradient>
           <radialGradient id="plShade" cx="40%" cy="35%" r="68%"><stop offset=".5" stop-color="#111114" stop-opacity="0"/><stop offset="1" stop-color="#111114" stop-opacity=".5"/></radialGradient>
         </defs>
         <g class="pl-tilt">
