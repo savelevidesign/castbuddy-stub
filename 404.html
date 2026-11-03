@@ -83,7 +83,12 @@ body{background:var(--bg);color:var(--ink);min-height:100dvh;
 /* Подзаголовок — вторая строка заголовка по смыслу: продолжает фразу «И целой
    вселенной мало..», поэтому стоит вплотную и набран тише, но крупнее текста. */
 .nf-sub{font-size:20px;line-height:1.35;color:var(--ink-2);margin:0 0 36px}
-.nf p{margin:0 auto 28px;max-width:44ch}
+/* Уже прежнего и с переносом по смыслу (владелец 03.11): первое слово новой
+   фразы не висит в конце строки — оно привязано к следующему неразрывным пробелом. */
+.nf p{margin:0 auto 28px;max-width:38ch;text-wrap:pretty}
+/* Каждая фраза — с новой строки: начало следующей не повисает в конце прежней. */
+.nf p.nf-lines{max-width:none}
+.nf-lines span{display:block;text-wrap:balance}
 /* Две кнопки столбиком по центру (правка владельца 08.08). Ширина задана числом,
    а не содержимым: у «На главную» и «Помощь» разной длины подписи, а столбик
    с кнопками разной ширины читается как список ссылок, а не как выбор из двух.
@@ -207,7 +212,7 @@ body{background:var(--bg);color:var(--ink);min-height:100dvh;
       <i style="left:68.49%;top:88.68%;width:8.44%;animation-delay:2.9s"><svg><use href="#nfStar"/></svg></i>
     </div>
     <h1>Сервис пока недоступен</h1>
-    <p>У нашего хостинг-провайдера крупный сбой. Делаем всё возможное для восстановления CastBuddy. Все новости оперативно напишем в Telegram-канале.</p>
+    <p class="nf-lines"><span>У нашего хостинг‑провайдера крупный сбой.</span> <span>Делаем всё возможное для восстановления CastBuddy.</span> <span>Все новости оперативно напишем в&nbsp;Telegram-канале.</span></p>
     <div class="nf-links">
       <a class="is-key" href="https://t.me/castbuddy" target="_blank" rel="noopener">Быть в курсе</a>
     </div>
