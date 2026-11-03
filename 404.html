@@ -48,22 +48,25 @@ body{background:var(--bg);color:var(--ink);min-height:100dvh;
    шаром, передняя — перед ним. Только transform, разные периоды — без маятника. */
 .nf-planet{position:absolute;left:-2.5%;top:-3%;width:36%;aspect-ratio:1}
 .nf-planet svg{display:block;width:100%;height:100%;overflow:visible}
-.pl-tilt{transform-origin:60px 60px;animation:plTilt 8s ease-in-out infinite}
+/* Планета и ось ходят по-разному (владелец 03.11): шар с кольцом медленно
+   дрейфует, а наклон кольца меняется сам по себе, со своим темпом. */
+.pl-drift{animation:plDrift 13s ease-in-out infinite}
+.pl-axis{transform-origin:60px 60px;transform:rotate(-25deg);animation:plTilt 7s ease-in-out infinite}
 .pl-ring{transform-origin:60px 60px;animation:plRing 11s ease-in-out infinite}
 /* Кольцо — плоская лента (владелец 03.11): по бокам шире, спереди и сзади
    тоньше, как у кольца под углом; к дальнему краю плавно гаснет — глубина без резкой границы. */
 .pl-ring path{fill:url(#plRingG)}
 @keyframes plTilt{0%,100%{transform:rotate(-31deg)}50%{transform:rotate(-19deg)}}
+@keyframes plDrift{0%,100%{transform:translate(0,0)}30%{transform:translate(2.5px,-3px)}65%{transform:translate(-2px,2.5px)}}
 @keyframes plRing{0%,100%{transform:scale(1,.82)}50%{transform:scale(1,1.15)}}
 .nf-sway{position:absolute;inset:0;animation:nfSway 9s ease-in-out infinite;transform-origin:50% 55%}
-/* Огонь ранца (владелец 03.11): живой, белый, без обводки. Два языка пламени
-   дрожат с разным темпом — их сумма не повторяется и читается как огонь.
+/* Огонь ранца (владелец 03.11): живой, белый, без обводки, один язык пламени
+   (второй, мелкий, владелец снял 03.11) — дрожит медленно и мягко.
    Лежит под маскотом: верх пламени прячется в сопле ранца. */
 .nf-fire{position:absolute;left:14.5%;top:59.8%;width:8.4%;height:10.5%;
   transform-origin:50% 0;transform:rotate(34deg)}
 .nf-fire b{position:absolute;inset:0;transform-origin:50% 0;
   animation:nfFlick 1.3s ease-in-out infinite}
-.nf-fire b+b{animation-duration:.95s;animation-direction:reverse;animation-delay:-.4s}
 .nf-fire svg{display:block;width:100%;height:100%;fill:#fff;overflow:visible}
 @keyframes nfFlick{
   0%,100%{transform:scale(1,1) skewX(0)}
@@ -136,7 +139,7 @@ body{background:var(--bg);color:var(--ink);min-height:100dvh;
   0%,100%{transform:scale(1)}
   50%{transform:scale(1.6)}
 }
-@media (prefers-reduced-motion:reduce){ .nf-stars i,.nf-art i,.nf-float,.nf-sway,.nf-fire b,.pl-tilt,.pl-ring{animation:none} }
+@media (prefers-reduced-motion:reduce){ .nf-stars i,.nf-art i,.nf-float,.nf-sway,.nf-fire b,.pl-drift,.pl-axis,.pl-ring{animation:none} }
 /* На узком экране подзаголовок тоже поджимаем: рядом с h1 в 27px он в прежних
    20px переставал читаться как второй уровень. */
 @media (max-width:600px){
@@ -191,19 +194,19 @@ body{background:var(--bg);color:var(--ink);min-height:100dvh;
     <div class="nf-art" aria-hidden="true">
       <span class="nf-planet"><svg viewBox="0 0 120 120">
         <defs>
-          <radialGradient id="plBody" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="#fff"/><stop offset=".5" stop-color="#EEEEEE"/><stop offset="1" stop-color="#B4B4B4"/></radialGradient>
+          <radialGradient id="plBody" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="#fff"/><stop offset=".35" stop-color="#F5F5F5"/><stop offset=".7" stop-color="#DCDCDC"/><stop offset="1" stop-color="#C2C2C2"/></radialGradient>
           <linearGradient id="plRingG" gradientUnits="userSpaceOnUse" x1="0" y1="44" x2="0" y2="76"><stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset=".55" stop-color="#fff" stop-opacity=".8"/><stop offset="1" stop-color="#fff"/></linearGradient>
-          <radialGradient id="plShade" cx="40%" cy="35%" r="68%"><stop offset=".5" stop-color="#111114" stop-opacity="0"/><stop offset="1" stop-color="#111114" stop-opacity=".5"/></radialGradient>
+          <radialGradient id="plShade" cx="40%" cy="35%" r="68%"><stop offset=".4" stop-color="#111114" stop-opacity="0"/><stop offset=".8" stop-color="#111114" stop-opacity=".14"/><stop offset="1" stop-color="#111114" stop-opacity=".34"/></radialGradient>
         </defs>
-        <g class="pl-tilt">
-          <g class="pl-ring pl-back"><path d="M7 60A53 15 0 0 1 113 60H103A43 11 0 0 0 17 60Z"/></g>
+        <g class="pl-drift">
+          <g class="pl-axis"><g class="pl-ring"><path d="M7 60A53 15 0 0 1 113 60H103A43 11 0 0 0 17 60Z"/></g></g>
           <circle cx="60" cy="60" r="26" fill="url(#plBody)"/>
           <circle cx="60" cy="60" r="26" fill="url(#plShade)"/>
-          <g class="pl-ring"><path d="M113 60A53 15 0 0 1 7 60H17A43 11 0 0 0 103 60Z"/></g>
+          <g class="pl-axis"><g class="pl-ring"><path d="M113 60A53 15 0 0 1 7 60H17A43 11 0 0 0 103 60Z"/></g></g>
         </g>
       </svg></span>
       <div class="nf-float"><div class="nf-sway">
-        <span class="nf-fire"><b><svg viewBox="0 0 50 70"><path d="M9 0H41C47 12 48 26 43 37C39 46 33 52 29 70C25 60 18 57 13 49C8 41 3 30 5 18C6 11 7 5 9 0Z"/></svg></b><b><svg viewBox="0 0 50 70"><path d="M14 0H36C40 12 40 26 36 36C33 44 26 50 21 62C19 52 14 46 12 38C9 28 10 12 14 0Z"/></svg></b></span>
+        <span class="nf-fire"><b><svg viewBox="0 0 50 70"><path d="M9 0H41C47 12 48 26 43 37C39 46 33 52 29 70C25 60 18 57 13 49C8 41 3 30 5 18C6 11 7 5 9 0Z"/></svg></b></span>
         <img src="/assets/mascot-404-space.svg" alt="">
       </div></div>
       <i style="left:6.31%;top:32.53%;width:8.44%;animation-delay:.6s"><svg><use href="#nfStar"/></svg></i>
