@@ -56,7 +56,7 @@ body{background:var(--bg);color:var(--ink);min-height:100dvh;
 /* Кольцо — плоская лента (владелец 03.11): по бокам шире, спереди и сзади
    тоньше, как у кольца под углом; к дальнему краю плавно гаснет — глубина без резкой границы. */
 .pl-ring path{fill:url(#plRingG)}
-@keyframes plTilt{0%,100%{transform:rotate(-31deg)}50%{transform:rotate(-19deg)}}
+@keyframes plTilt{0%,100%{transform:rotate(-40deg)}50%{transform:rotate(-8deg)}}
 @keyframes plDrift{0%,100%{transform:translate(0,0)}30%{transform:translate(2.5px,-3px)}65%{transform:translate(-2px,2.5px)}}
 @keyframes plRing{0%,100%{transform:scale(1,.82)}50%{transform:scale(1,1.15)}}
 .nf-sway{position:absolute;inset:0;animation:nfSway 9s ease-in-out infinite;transform-origin:50% 55%}
@@ -134,7 +134,8 @@ body{background:var(--bg);color:var(--ink);min-height:100dvh;
   font-size:13px;color:#fff;visibility:hidden;
   animation:nfTwinkle 3.4s ease-in-out infinite}
 .nf-stars i.on{visibility:visible}
-/* Ещё звёзды — только для телефона: на узком экране поле пустело (владелец 03.11). */
+/* На телефоне — свой набор звёзд, реже и ровнее по полю (владелец 03.11):
+   компьютерная раскладка на узком экране сбивалась в кучки. */
 .nf-stars i.m{display:none}
 .nf-stars i svg{display:block;width:1em;height:1em;fill:currentColor}
 @keyframes nfTwinkle{
@@ -151,7 +152,7 @@ body{background:var(--bg);color:var(--ink);min-height:100dvh;
      следующему слову неразрывным пробелом и одно в конце строки не висит. */
   .nf p.nf-lines{max-width:34ch;text-wrap:balance}
   .nf-lines span{display:inline}
-  .nf-stars i.m{display:block}
+  .nf-stars i{display:none} .nf-stars i.m{display:block}
   .nf-sub{font-size:17px;margin-bottom:28px}
 }
 /* Прокрутки нет, значит содержимое обязано влезать в любую высоту — иначе
@@ -196,12 +197,19 @@ body{background:var(--bg);color:var(--ink);min-height:100dvh;
     <i style="left:34%;top:93%;font-size:13px;animation-delay:2.2s"><svg><use href="#nfStar"/></svg></i>
     <i style="left:55%;top:95%;font-size:7px;animation-delay:.2s"><svg><use href="#nfStar"/></svg></i>
     <i style="left:68%;top:90%;font-size:18px;animation-delay:1.7s"><svg><use href="#nfStar"/></svg></i>
-      <i class="m" style="left:6%;top:27%;font-size:9px;animation-delay:0.4s"><svg><use href="#nfStar"/></svg></i>
-    <i class="m" style="left:91%;top:38%;font-size:12px;animation-delay:1.3s"><svg><use href="#nfStar"/></svg></i>
-    <i class="m" style="left:86%;top:15%;font-size:15px;animation-delay:1.9s"><svg><use href="#nfStar"/></svg></i>
-    <i class="m" style="left:20%;top:96%;font-size:10px;animation-delay:0.6s"><svg><use href="#nfStar"/></svg></i>
-    <i class="m" style="left:80%;top:94%;font-size:12px;animation-delay:2.4s"><svg><use href="#nfStar"/></svg></i>
-    <i class="m" style="left:45%;top:88%;font-size:7px;animation-delay:1.5s"><svg><use href="#nfStar"/></svg></i>
+      <i class="m" style="left:12%;top:7%;font-size:10px;animation-delay:0.3s"><svg><use href="#nfStar"/></svg></i>
+    <i class="m" style="left:50%;top:4%;font-size:14px;animation-delay:1.7s"><svg><use href="#nfStar"/></svg></i>
+    <i class="m" style="left:86%;top:10%;font-size:9px;animation-delay:2.6s"><svg><use href="#nfStar"/></svg></i>
+    <i class="m" style="left:30%;top:15%;font-size:7px;animation-delay:1.1s"><svg><use href="#nfStar"/></svg></i>
+    <i class="m" style="left:7%;top:25%;font-size:13px;animation-delay:2.2s"><svg><use href="#nfStar"/></svg></i>
+    <i class="m" style="left:92%;top:29%;font-size:8px;animation-delay:0.7s"><svg><use href="#nfStar"/></svg></i>
+    <i class="m" style="left:5%;top:41%;font-size:9px;animation-delay:3.0s"><svg><use href="#nfStar"/></svg></i>
+    <i class="m" style="left:94%;top:44%;font-size:14px;animation-delay:1.4s"><svg><use href="#nfStar"/></svg></i>
+    <i class="m" style="left:14%;top:82%;font-size:12px;animation-delay:0.9s"><svg><use href="#nfStar"/></svg></i>
+    <i class="m" style="left:56%;top:87%;font-size:8px;animation-delay:2.4s"><svg><use href="#nfStar"/></svg></i>
+    <i class="m" style="left:88%;top:80%;font-size:10px;animation-delay:1.9s"><svg><use href="#nfStar"/></svg></i>
+    <i class="m" style="left:34%;top:94%;font-size:15px;animation-delay:0.5s"><svg><use href="#nfStar"/></svg></i>
+    <i class="m" style="left:76%;top:95%;font-size:9px;animation-delay:2.9s"><svg><use href="#nfStar"/></svg></i>
   </div>
 
   <div class="nf">
