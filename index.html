@@ -45,7 +45,7 @@ body{background:var(--bg);color:var(--ink);min-height:100dvh;
 /* Планета (владелец 03.11): светлая и объёмная — градиент и тень по краю шара;
    без кратеров (владелец 03.11); ось плавно гуляет, а кольцо
    «дышит» — наклон виден то сильнее, то слабее. Задняя половина кольца — за
-   шаром, передняя — перед ним. Только transform, разные периоды — без маятника. */
+   шаром (за шаром лежит всё кольцо целиком, чтобы на стыке половин не было линии разреза), передняя — перед ним. Только transform, разные периоды — без маятника. */
 .nf-planet{position:absolute;left:-2.5%;top:-3%;width:36%;aspect-ratio:1}
 .nf-planet svg{display:block;width:100%;height:100%;overflow:visible}
 /* Планета и ось ходят по-разному (владелец 03.11): шар с кольцом медленно
@@ -195,11 +195,11 @@ body{background:var(--bg);color:var(--ink);min-height:100dvh;
       <span class="nf-planet"><svg viewBox="0 0 120 120">
         <defs>
           <radialGradient id="plBody" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="#fff"/><stop offset=".35" stop-color="#F5F5F5"/><stop offset=".7" stop-color="#DCDCDC"/><stop offset="1" stop-color="#C2C2C2"/></radialGradient>
-          <linearGradient id="plRingG" gradientUnits="userSpaceOnUse" x1="0" y1="44" x2="0" y2="76"><stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset=".55" stop-color="#fff" stop-opacity=".8"/><stop offset="1" stop-color="#fff"/></linearGradient>
+          <linearGradient id="plRingG" gradientUnits="userSpaceOnUse" x1="0" y1="44" x2="0" y2="76"><stop offset="0" stop-color="#626265"/><stop offset=".55" stop-color="#D0D0D1"/><stop offset="1" stop-color="#fff"/></linearGradient>
           <radialGradient id="plShade" cx="40%" cy="35%" r="68%"><stop offset=".4" stop-color="#111114" stop-opacity="0"/><stop offset=".8" stop-color="#111114" stop-opacity=".14"/><stop offset="1" stop-color="#111114" stop-opacity=".34"/></radialGradient>
         </defs>
         <g class="pl-drift">
-          <g class="pl-axis"><g class="pl-ring"><path d="M7 60A53 15 0 0 1 113 60H103A43 11 0 0 0 17 60Z"/></g></g>
+          <g class="pl-axis"><g class="pl-ring"><path fill-rule="evenodd" d="M7 60A53 15 0 1 1 113 60A53 15 0 1 1 7 60ZM17 60A43 11 0 1 0 103 60A43 11 0 1 0 17 60Z"/></g></g>
           <circle cx="60" cy="60" r="26" fill="url(#plBody)"/>
           <circle cx="60" cy="60" r="26" fill="url(#plShade)"/>
           <g class="pl-axis"><g class="pl-ring"><path d="M113 60A53 15 0 0 1 7 60H17A43 11 0 0 0 103 60Z"/></g></g>
