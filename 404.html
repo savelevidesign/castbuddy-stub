@@ -134,6 +134,8 @@ body{background:var(--bg);color:var(--ink);min-height:100dvh;
   font-size:13px;color:#fff;visibility:hidden;
   animation:nfTwinkle 3.4s ease-in-out infinite}
 .nf-stars i.on{visibility:visible}
+/* Ещё звёзды — только для телефона: на узком экране поле пустело (владелец 03.11). */
+.nf-stars i.m{display:none}
 .nf-stars i svg{display:block;width:1em;height:1em;fill:currentColor}
 @keyframes nfTwinkle{
   0%,100%{transform:scale(1)}
@@ -144,6 +146,12 @@ body{background:var(--bg);color:var(--ink);min-height:100dvh;
    20px переставал читаться как второй уровень. */
 @media (max-width:600px){
   .nf{padding:18px} .nf h1{font-size:27px}
+  /* На телефоне фразы по строкам давали рваный столбик (владелец 03.11) —
+     здесь текст идёт одним ровным абзацем, а начало фразы привязано к
+     следующему слову неразрывным пробелом и одно в конце строки не висит. */
+  .nf p.nf-lines{max-width:34ch;text-wrap:balance}
+  .nf-lines span{display:inline}
+  .nf-stars i.m{display:block}
   .nf-sub{font-size:17px;margin-bottom:28px}
 }
 /* Прокрутки нет, значит содержимое обязано влезать в любую высоту — иначе
@@ -188,6 +196,12 @@ body{background:var(--bg);color:var(--ink);min-height:100dvh;
     <i style="left:34%;top:93%;font-size:13px;animation-delay:2.2s"><svg><use href="#nfStar"/></svg></i>
     <i style="left:55%;top:95%;font-size:7px;animation-delay:.2s"><svg><use href="#nfStar"/></svg></i>
     <i style="left:68%;top:90%;font-size:18px;animation-delay:1.7s"><svg><use href="#nfStar"/></svg></i>
+      <i class="m" style="left:6%;top:27%;font-size:9px;animation-delay:0.4s"><svg><use href="#nfStar"/></svg></i>
+    <i class="m" style="left:91%;top:38%;font-size:12px;animation-delay:1.3s"><svg><use href="#nfStar"/></svg></i>
+    <i class="m" style="left:86%;top:15%;font-size:15px;animation-delay:1.9s"><svg><use href="#nfStar"/></svg></i>
+    <i class="m" style="left:20%;top:96%;font-size:10px;animation-delay:0.6s"><svg><use href="#nfStar"/></svg></i>
+    <i class="m" style="left:80%;top:94%;font-size:12px;animation-delay:2.4s"><svg><use href="#nfStar"/></svg></i>
+    <i class="m" style="left:45%;top:88%;font-size:7px;animation-delay:1.5s"><svg><use href="#nfStar"/></svg></i>
   </div>
 
   <div class="nf">
@@ -214,7 +228,7 @@ body{background:var(--bg);color:var(--ink);min-height:100dvh;
       <i style="left:68.49%;top:88.68%;width:8.44%;animation-delay:2.9s"><svg><use href="#nfStar"/></svg></i>
     </div>
     <h1>Сервис пока недоступен</h1>
-    <p class="nf-lines"><span>У нашего хостинг‑провайдера крупный сбой.</span> <span>Делаем всё возможное для восстановления CastBuddy.</span> <span>Все новости оперативно напишем в&nbsp;Telegram-канале.</span></p>
+    <p class="nf-lines"><span>У нашего хостинг‑провайдера крупный сбой.</span> <span>Делаем&nbsp;всё возможное для восстановления CastBuddy.</span> <span>Все&nbsp;новости оперативно напишем в&nbsp;Telegram-канале.</span></p>
     <div class="nf-links">
       <a class="is-key" href="https://t.me/castbuddy" target="_blank" rel="noopener">Быть в курсе</a>
     </div>
@@ -232,7 +246,16 @@ body{background:var(--bg);color:var(--ink);min-height:100dvh;
       GAP = 14, timer;
 
   function place(){
-    var b = box.getBoundingClientRect();
+    // Сверяем не с блоком целиком (на телефоне он во всю ширину и прятал почти
+    // все звёзды), а с тем, что в нём реально нарисовано: картинка, кнопки и
+    // каждая строка текста отдельно.
+    var rs = [];
+    box.querySelectorAll('.nf-art,.nf-links a').forEach(function(e){ rs.push(e.getBoundingClientRect()); });
+    box.querySelectorAll('h1,p').forEach(function(e){
+      var rg = document.createRange(); rg.selectNodeContents(e);
+      var lr = rg.getClientRects();
+      for (var k = 0; k < lr.length; k++) rs.push(lr[k]);
+    });
     for (var i = 0; i < stars.length; i++){
       var s = stars[i];
       // Мерцание раздувает звезду до 1.6 — меряем по самому большому её размеру,
@@ -241,8 +264,10 @@ body{background:var(--bg);color:var(--ink);min-height:100dvh;
       var r = s.getBoundingClientRect(),
           w = r.width * 1.6 / 2, h = r.height * 1.6 / 2,
           cx = r.left + r.width / 2, cy = r.top + r.height / 2,
-          hit = cx + w > b.left - GAP && cx - w < b.right + GAP
-             && cy + h > b.top - GAP && cy - h < b.bottom + GAP;
+          hit = rs.some(function(b){
+            return cx + w > b.left - GAP && cx - w < b.right + GAP
+                && cy + h > b.top - GAP && cy - h < b.bottom + GAP;
+          });
       if (hit) s.classList.remove('on');
     }
   }
