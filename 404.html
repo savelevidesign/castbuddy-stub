@@ -51,6 +51,11 @@ body{background:var(--bg);color:var(--ink);min-height:100dvh;
 /* Планета и ось ходят по-разному (владелец 03.11): шар с кольцом медленно
    дрейфует, а наклон кольца меняется сам по себе, со своим темпом. */
 .pl-drift{animation:plDrift 13s ease-in-out infinite}
+/* Шар — навстречу кольцу (владелец 03.11): дрейф зеркальный, а свет на шаре
+   поворачивается против наклона оси. Так шар и кольцо читаются как два
+   отдельных тела, одно вокруг другого, а не одна картинка. */
+.pl-drift-rev{animation:plDriftRev 13s ease-in-out infinite}
+.pl-ball{transform-origin:60px 60px;animation:plBall 7s ease-in-out infinite}
 .pl-axis{transform-origin:60px 60px;transform:rotate(-25deg);animation:plTilt 7s ease-in-out infinite}
 .pl-ring{transform-origin:60px 60px;animation:plRing 11s ease-in-out infinite}
 /* Кольцо — плоская лента (владелец 03.11): по бокам шире, спереди и сзади
@@ -58,6 +63,8 @@ body{background:var(--bg);color:var(--ink);min-height:100dvh;
 .pl-ring path{fill:url(#plRingG)}
 @keyframes plTilt{0%,100%{transform:rotate(-40deg)}50%{transform:rotate(-8deg)}}
 @keyframes plDrift{0%,100%{transform:translate(0,0)}30%{transform:translate(2.5px,-3px)}65%{transform:translate(-2px,2.5px)}}
+@keyframes plDriftRev{0%,100%{transform:translate(0,0)}30%{transform:translate(-2.5px,3px)}65%{transform:translate(2px,-2.5px)}}
+@keyframes plBall{0%,100%{transform:rotate(14deg)}50%{transform:rotate(-14deg)}}
 @keyframes plRing{0%,100%{transform:scale(1,.82)}50%{transform:scale(1,1.15)}}
 .nf-sway{position:absolute;inset:0;animation:nfSway 9s ease-in-out infinite;transform-origin:50% 55%}
 /* Огонь ранца (владелец 03.11): живой, белый, без обводки, один язык пламени
@@ -142,7 +149,7 @@ body{background:var(--bg);color:var(--ink);min-height:100dvh;
   0%,100%{transform:scale(1)}
   50%{transform:scale(1.6)}
 }
-@media (prefers-reduced-motion:reduce){ .nf-stars i,.nf-art i,.nf-float,.nf-sway,.nf-fire b,.pl-drift,.pl-axis,.pl-ring{animation:none} }
+@media (prefers-reduced-motion:reduce){ .nf-stars i,.nf-art i,.nf-float,.nf-sway,.nf-fire b,.pl-drift,.pl-drift-rev,.pl-ball,.pl-axis,.pl-ring{animation:none} }
 /* На узком экране подзаголовок тоже поджимаем: рядом с h1 в 27px он в прежних
    20px переставал читаться как второй уровень. */
 @media (max-width:600px){
@@ -220,11 +227,13 @@ body{background:var(--bg);color:var(--ink);min-height:100dvh;
           <linearGradient id="plRingG" gradientUnits="userSpaceOnUse" x1="0" y1="44" x2="0" y2="76"><stop offset="0" stop-color="#626265"/><stop offset=".55" stop-color="#D0D0D1"/><stop offset="1" stop-color="#fff"/></linearGradient>
           <radialGradient id="plShade" cx="40%" cy="35%" r="68%"><stop offset=".4" stop-color="#111114" stop-opacity="0"/><stop offset=".8" stop-color="#111114" stop-opacity=".14"/><stop offset="1" stop-color="#111114" stop-opacity=".34"/></radialGradient>
         </defs>
-        <g class="pl-drift">
-          <g class="pl-axis"><g class="pl-ring"><path fill-rule="evenodd" d="M7 60A53 15 0 1 1 113 60A53 15 0 1 1 7 60ZM17 60A43 11 0 1 0 103 60A43 11 0 1 0 17 60Z"/></g></g>
-          <circle cx="60" cy="60" r="26" fill="url(#plBody)"/>
-          <circle cx="60" cy="60" r="26" fill="url(#plShade)"/>
-          <g class="pl-axis"><g class="pl-ring"><path d="M113 60A53 15 0 0 1 7 60H17A43 11 0 0 0 103 60Z"/></g></g>
+        <g>
+          <g class="pl-drift"><g class="pl-axis"><g class="pl-ring"><path fill-rule="evenodd" d="M7 60A53 15 0 1 1 113 60A53 15 0 1 1 7 60ZM17 60A43 11 0 1 0 103 60A43 11 0 1 0 17 60Z"/></g></g></g>
+          <g class="pl-drift-rev"><g class="pl-ball">
+            <circle cx="60" cy="60" r="26" fill="url(#plBody)"/>
+            <circle cx="60" cy="60" r="26" fill="url(#plShade)"/>
+          </g></g>
+          <g class="pl-drift"><g class="pl-axis"><g class="pl-ring"><path d="M113 60A53 15 0 0 1 7 60H17A43 11 0 0 0 103 60Z"/></g></g></g>
         </g>
       </svg></span>
       <div class="nf-float"><div class="nf-sway">
