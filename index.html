@@ -43,18 +43,19 @@ body{background:var(--bg);color:var(--ink);min-height:100dvh;
 .nf-art img{position:absolute;inset:0;width:100%;height:100%;display:block}
 .nf-float{position:absolute;inset:0;animation:nfFloat 6s ease-in-out infinite}
 /* Планета (владелец 03.11): светлая и объёмная — градиент и тень по краю шара;
-   пятна на поверхности плывут по кругу (вращение), ось плавно гуляет, а кольцо
+   без кратеров (владелец 03.11); ось плавно гуляет, а кольцо
    «дышит» — наклон виден то сильнее, то слабее. Задняя половина кольца — за
    шаром, передняя — перед ним. Только transform, разные периоды — без маятника. */
 .nf-planet{position:absolute;left:-2.5%;top:-3%;width:36%;aspect-ratio:1}
 .nf-planet svg{display:block;width:100%;height:100%;overflow:visible}
 .pl-tilt{transform-origin:60px 60px;animation:plTilt 8s ease-in-out infinite}
 .pl-ring{transform-origin:60px 60px;animation:plRing 11s ease-in-out infinite}
-.pl-ring path{fill:none;stroke:#fff;stroke-width:3.6;stroke-linecap:round}
-.pl-spin{fill:#7F76BE;fill-opacity:.32;animation:plSpin 14s linear infinite}
+/* Кольцо — плоская лента (владелец 03.11): по бокам шире, спереди и сзади
+   тоньше, как у кольца под углом; задняя половина чуть тусклее — глубина. */
+.pl-ring path{fill:#fff}
+.pl-back path{fill-opacity:.7}
 @keyframes plTilt{0%,100%{transform:rotate(-31deg)}50%{transform:rotate(-19deg)}}
 @keyframes plRing{0%,100%{transform:scale(1,.82)}50%{transform:scale(1,1.15)}}
-@keyframes plSpin{from{transform:translateX(0)}to{transform:translateX(-52px)}}
 .nf-sway{position:absolute;inset:0;animation:nfSway 9s ease-in-out infinite;transform-origin:50% 55%}
 /* Огонь ранца (владелец 03.11): живой, белый, без обводки. Два языка пламени
    дрожат с разным темпом — их сумма не повторяется и читается как огонь.
@@ -136,7 +137,7 @@ body{background:var(--bg);color:var(--ink);min-height:100dvh;
   0%,100%{transform:scale(1)}
   50%{transform:scale(1.6)}
 }
-@media (prefers-reduced-motion:reduce){ .nf-stars i,.nf-art i,.nf-float,.nf-sway,.nf-fire b,.pl-tilt,.pl-ring,.pl-spin{animation:none} }
+@media (prefers-reduced-motion:reduce){ .nf-stars i,.nf-art i,.nf-float,.nf-sway,.nf-fire b,.pl-tilt,.pl-ring{animation:none} }
 /* На узком экране подзаголовок тоже поджимаем: рядом с h1 в 27px он в прежних
    20px переставал читаться как второй уровень. */
 @media (max-width:600px){
@@ -191,16 +192,14 @@ body{background:var(--bg);color:var(--ink);min-height:100dvh;
     <div class="nf-art" aria-hidden="true">
       <span class="nf-planet"><svg viewBox="0 0 120 120">
         <defs>
-          <radialGradient id="plBody" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="#fff"/><stop offset=".5" stop-color="#ECE9F7"/><stop offset="1" stop-color="#B7B1D4"/></radialGradient>
-          <radialGradient id="plShade" cx="40%" cy="35%" r="68%"><stop offset=".5" stop-color="#2A2350" stop-opacity="0"/><stop offset="1" stop-color="#2A2350" stop-opacity=".5"/></radialGradient>
-          <clipPath id="plClip"><circle cx="60" cy="60" r="26"/></clipPath>
+          <radialGradient id="plBody" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="#fff"/><stop offset=".5" stop-color="#EEEEEE"/><stop offset="1" stop-color="#B4B4B4"/></radialGradient>
+          <radialGradient id="plShade" cx="40%" cy="35%" r="68%"><stop offset=".5" stop-color="#111114" stop-opacity="0"/><stop offset="1" stop-color="#111114" stop-opacity=".5"/></radialGradient>
         </defs>
         <g class="pl-tilt">
-          <g class="pl-ring"><path d="M10 60A50 15 0 0 1 110 60"/></g>
+          <g class="pl-ring pl-back"><path d="M7 60A53 15 0 0 1 113 60H103A43 11 0 0 0 17 60Z"/></g>
           <circle cx="60" cy="60" r="26" fill="url(#plBody)"/>
-          <g clip-path="url(#plClip)"><g class="pl-spin"><ellipse cx="40" cy="52" rx="9" ry="3"/><ellipse cx="58" cy="66" rx="12" ry="3.5"/><ellipse cx="74" cy="47" rx="6" ry="2.4"/><ellipse cx="49" cy="75" rx="7" ry="2"/><ellipse cx="66" cy="57" rx="5" ry="1.8"/><ellipse cx="92" cy="52" rx="9" ry="3"/><ellipse cx="110" cy="66" rx="12" ry="3.5"/><ellipse cx="126" cy="47" rx="6" ry="2.4"/><ellipse cx="101" cy="75" rx="7" ry="2"/><ellipse cx="118" cy="57" rx="5" ry="1.8"/></g></g>
           <circle cx="60" cy="60" r="26" fill="url(#plShade)"/>
-          <g class="pl-ring"><path d="M110 60A50 15 0 0 1 10 60"/></g>
+          <g class="pl-ring"><path d="M113 60A53 15 0 0 1 7 60H17A43 11 0 0 0 103 60Z"/></g>
         </g>
       </svg></span>
       <div class="nf-float"><div class="nf-sway">
